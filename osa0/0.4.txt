@@ -1,0 +1,14 @@
+title 0.4
+
+note left of Selain: Kirjoittaa muistiinpanon ja painaa save
+Selain->Palvelin: POST https://fullstack-exampleapp.herokuapp.com/notes
+note right of Palvelin: Palvelimen javascript koodi huolehtii POST-pyynnöstä
+note right of Palvelin: Javascriptissä luodaan muistiinpanoa vastaava olio ja lisää sen taulukkoon 'notes'
+Palvelin -> Selain: HTTP 302 URL redirection
+Selain->Palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+Palvelin->Selain: HTML-koodi
+Selain->Palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+Palvelin->Selain: main.css
+Selain->Palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+Palvelin->Selain: main.js
+

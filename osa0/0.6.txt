@@ -1,0 +1,9 @@
+title 0.6
+
+note left of Selain: Kirjoittaa muistiinpanon ja painaa save
+note right of Selain
+ Selaimen javascript koodi lisää muistiinpanon notes-osioon
+ ja piirtää listan uudelleen
+end note
+Selain->Palvelin: POST https://fullstack-exampleapp.herokuapp.com/notes
+Palvelin->Selain: HTTP 201 Created
