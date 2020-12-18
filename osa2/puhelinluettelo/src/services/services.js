@@ -12,8 +12,8 @@ const create = newObject => {
 }
 
 const destroy = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
-  return request.then(response => response.data)
+  const request = axios.delete(`${baseUrl}/${id}`, newObject)
+  return request.then()
 }
 
 export default { getAll, create, destroy }

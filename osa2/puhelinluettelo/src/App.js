@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import pservices from './services/services'
 import Form from './Form'
 import Persons from './Persons'
+import Notification from './Notification'
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
-  const [newNumber, setNewNumber] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ notificationMsg, setNotificationMsg ] = useState(null)
 
   //Haetaan henkilöiden tiedot palvelimelta
   useEffect(() => {
@@ -48,6 +50,11 @@ const App = () => {
           .create(personObject)
           .then(returnedPerson => {
             setPersons(persons.concat(returnedPerson))
+            //Ilmoitus hyväksytystä lisäyksestä 3 sekunniksi
+            setNotificationMsg(`Added ${returnedPerson.name}`)
+            setTimeout(() => {
+              setNotificationMsg(null)
+            }, 3000)
           })
     
      //Nollataan uusi nimi
@@ -57,16 +64,21 @@ const App = () => {
   
   //Funktio henkilötietojen poistamiselle
   const deletePersonOf = (name) => {
-    const person = persons.find(p => p. name === name)
+    const person = persons.find(p => p.name === name)
     console.log(person.id)
     const id = person.id
     pservices
      .destroy(id, person)
-     .then(deletedPerson => {
-       console.log(deletedPerson)
+     .then(()=> {
+       console.log(person.name)
        const filteredPersons = persons.filter(p => p.id !== id)
-       if(window.confirm(`Do you want to delete ${deletedPerson.name}`)){
+       //Kysytään pop-upilla varmennusta henkilön tietojen poistosta
+       if(window.confirm(`Do you want to delete ${person.name}`)){
          setPersons(filteredPersons)
+         setNotificationMsg(`Deleted ${person.name}`)
+            setTimeout(() => {
+              setNotificationMsg(null)
+            }, 3000)
        }
      })
   }
@@ -74,6 +86,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMsg}/>
       <Form newName={newName} newNumber={newNumber}
        handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}
        addPerson={addPerson}/>
