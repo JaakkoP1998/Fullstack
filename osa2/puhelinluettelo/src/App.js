@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import pservices from './services/services'
 import Form from './Form'
 import Persons from './Persons'
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { 
-      name: 'Arto Hellas',
-      number: '+358 45 503 1334'
-    }
-  ]) 
+  const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [newNumber, setNewNumber] = useState('')
+
+  //Haetaan henkilöiden tiedot palvelimelta
+  useEffect(() => {
+    pservices
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
 
  // Funktiot input-elementin valuen muuttamiselle
   const handleNameChange = (event) =>{
@@ -39,11 +44,31 @@ const App = () => {
     //Tarkistetaan onko nimi jo listassa, jos on niin nimeä ei lisätä
     apu.includes(personObject.name)
       ? window.alert(`${newName} is already added to phonebook`)
-      : setPersons(persons.concat(personObject))
+      : pservices
+          .create(personObject)
+          .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+          })
     
      //Nollataan uusi nimi
      setNewName('')
      setNewNumber('')
+  }
+  
+  //Funktio henkilötietojen poistamiselle
+  const deletePersonOf = (name) => {
+    const person = persons.find(p => p. name === name)
+    console.log(person.id)
+    const id = person.id
+    pservices
+     .destroy(id, person)
+     .then(deletedPerson => {
+       console.log(deletedPerson)
+       const filteredPersons = persons.filter(p => p.id !== id)
+       if(window.confirm(`Do you want to delete ${deletedPerson.name}`)){
+         setPersons(filteredPersons)
+       }
+     })
   }
 
   return (
@@ -53,7 +78,7 @@ const App = () => {
        handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}
        addPerson={addPerson}/>
       <h2>Numbers</h2>
-      <Persons persons={persons}/>
+      <Persons persons={persons} deletePerson={deletePersonOf}/>
     </div>
   )
 
