@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFua2thbGlubmExNCIsImlkIjoiNWZlODVlNzkzOTM3NWYzYzE4OTRhYzZiIiwiaWF0IjoxNjA5MDcyNDM3fQ.qeIBjve61GjXLpt0gMt2RVwpPIMb2LdiPxgtXkbPr-4
+
+{
+    "title": "Rahanlaskunnan oikeus",
+    "author": "Roope Ankka",
+    "url": "roope.com",
+    "userId": "5fe85e7939375f3c1894ac6b",
+    "likes": "6117"
+}
