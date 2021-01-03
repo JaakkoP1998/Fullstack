@@ -1,33 +1,24 @@
 const notificationReducer = (state = '', action) => {
   switch(action.type){
-    case 'ADDED':
-      return state = `Successfully added anecdote: ${action.data}`
-    case 'VOTED':
-      return state = `Voted for: ${action.data}`
-    case 'NULL':
-      return state = ''
+    case 'SET NOTIFICATION':
+      return state = `${action.data}`
     default: return state
   }
-  
 }
 
-export const notificationNull = () => {
-  return {
-    type: 'NULL'
-  }
-}
 
-export const notificationAdd = (content) => {
-  return {
-    type: 'ADDED',
-    data: content
-  }
-}
-
-export const notificationVote = (content) => {
-  return {
-    type: 'VOTED',
-    data: content 
+export const setNotification = (content, timer) => {
+  return async dispatch => {
+    dispatch({
+      type: 'SET NOTIFICATION',
+      data: content
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'SET NOTIFICATION',
+        data: ''
+      })
+    }, timer)
   }
 }
 

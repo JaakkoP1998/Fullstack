@@ -1,8 +1,6 @@
-import React from 'react'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { Provider } from 'react-redux'
-import App from './App'
+import thunk from 'redux-thunk'
 
 import anecdoteReducer from './reducers/anecdoteReducer'
 import notificationReducer from './reducers/notificationReducer'
@@ -14,15 +12,9 @@ const reducer = combineReducers({
 
 const store = createStore(
   reducer,
-  composeWithDevTools()
+  composeWithDevTools(
+    applyMiddleware(thunk)
   )
+)
 
-const Store = () => {
-  return (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  )
-}
-
-export default Store
+export default store
